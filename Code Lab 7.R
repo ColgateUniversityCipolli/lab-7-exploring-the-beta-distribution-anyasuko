@@ -222,6 +222,140 @@ summary_stats <- df |>
 print(summary_stats)
 
 
+############################################################################################################################################################################################ 
+######################################################## Task 4 ######################################################################################################################################
+install.packages("cumstats")
+library(cumstats)
+
+install.packages("patchwork")
+library(patchwork)
+
+
+
+set.seed(7272)
+
+initial_sample <- rbeta(1000, 2, 5)
+
+cumulative_stats <- tibble(
+  n = 1:1000,
+  Mean = cummean(initial_sample),
+  Variance = cumvar(initial_sample),
+  Skewness = cumskew(initial_sample),
+  Kurtosis = cumkurt(initial_sample)
+) %>%
+  pivot_longer(-n, names_to = "Statistic", values_to = "Value")
+
+true_values <- tibble(
+  Statistic = c("Mean", "Variance", "Skewness", "Kurtosis"),
+  TrueValue = c(2/7, (2*5)/((2+5)^2 * (2+5+1)), 
+                (2*(5-2)*sqrt(2+5+1)) / ((2+5+2) * sqrt(2*5)),
+                (6 * ((2-5)^2 * (2+5+1) - 2*5*(2+5+2))) / (2*5*(2+5+2)*(2+5+3)))
+)
+
+p <- ggplot(cumulative_stats, aes(x = n, y = Value)) +
+  geom_line() +
+  geom_hline(data = true_values, aes(yintercept = TrueValue), linetype = "dashed", color = "red") +
+  facet_wrap(~Statistic, scales = "free") +
+  theme_minimal()
+
+for (i in 2:50) {
+  set.seed(7272 + i)
+  new_sample <- rbeta(1000, 2, 5)
+  
+  new_stats <- tibble(
+    n = 1:1000,
+    Mean = cummean(new_sample),
+    Variance = cumvar(new_sample),
+    Skewness = cumskew(new_sample),
+    Kurtosis = cumkurt(new_sample)
+  ) %>%
+    pivot_longer(-n, names_to = "Statistic", values_to = "Value")
+  
+  p <- p + geom_line(data = new_stats, aes(x = n, y = Value), color = i)
+}
+
+print(p)
+
+
+
+############################################################################################################################################################################################ 
+######################################################## Task 5 ######################################################################################################################################
+
+alpha <- 2
+beta <- 5
+n <- 500
+iterations <- 1000
+
+mean_values <- numeric(iterations)
+variance_values <- numeric(iterations)
+skewness_values <- numeric(iterations)
+excess_kurtosis_values <- numeric(iterations)
+
+set.seed(7272)
+
+for (i in 1:iterations) {
+  set.seed(7272 + i)
+  
+  sample_data <- rbeta(n, alpha, beta)
+  
+  mean_values[i] <- mean(sample_data)
+  variance_values[i] <- var(sample_data)
+  skewness_values[i] <- skewness(sample_data)
+  excess_kurtosis_values[i] <- kurtosis(sample_data) - 3  # Excess Kurtosis = kurtosis - 3
+}
+
+results_df <- data.frame(
+  Mean = mean_values,
+  Variance = variance_values,
+  Skewness = skewness_values,
+  Excess_Kurtosis = excess_kurtosis_values
+)
+
+summary_stats <- results_df %>%
+  summarise(
+    Mean_of_Means = mean(Mean),
+    Var_of_Means = var(Mean),
+    Mean_of_Variance = mean(Variance),
+    Var_of_Variance = var(Variance),
+    Mean_of_Skewness = mean(Skewness),
+    Var_of_Skewness = var(Skewness),
+    Mean_of_Excess_Kurtosis = mean(Excess_Kurtosis),
+    Var_of_Excess_Kurtosis = var(Excess_Kurtosis)
+  )
+
+print(summary_stats)
+
+# Mean Distribution
+p_mean <- ggplot(results_df, aes(x = Mean)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "green", color = "black", alpha = 0.7) +
+  geom_density(color = "red", size = 1) +
+  ggtitle("Sampling Distribution of the Mean") +
+  theme_minimal()
+
+# Variance Distribution
+p_variance <- ggplot(results_df, aes(x = Variance)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "blue", color = "black", alpha = 0.7) +
+  geom_density(color = "red", size = 1) +
+  ggtitle("Sampling Distribution of the Variance") +
+  theme_minimal()
+
+# Skewness Distribution
+p_skewness <- ggplot(results_df, aes(x = Skewness)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "purple", color = "black", alpha = 0.7) +
+  geom_density(color = "red", size = 1) +
+  ggtitle("Sampling Distribution of the Skewness") +
+  theme_minimal()
+
+# Excess Kurtosis Distribution
+p_kurtosis <- ggplot(results_df, aes(x = Excess_Kurtosis)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "orange", color = "black", alpha = 0.7) +
+  geom_density(color = "red", size = 1) +
+  ggtitle("Sampling Distribution of Excess Kurtosis") +
+  theme_minimal()
+
+(p_mean + p_variance + p_skewness + p_kurtosis) + plot_layout(ncol = 2)
+
+
 
 
 
