@@ -300,30 +300,77 @@ Here, the difference in statistic calculations from the previous section example
 \section{Sample Size and the Beta Distribution}
 This section demonstrates how cumulative numerical summaries—mean, variance, skewness, and excess kurtosis—change as more data points are added (sample size increases. The goal is to see how these statistics approach their true population values.
 
-ADD GRAPHS!!!
+(Figure(s) is in the Appendix)
 
-After careful examination of all four summary statistic graphs for the $\alpha=2$ and $\beta=5$ beta distribution, it can be seen that as sample size increases, the summary statistics each convergs towards the true value for the population for that summary statistic.
+After careful examination of all four summary statistic graphs for the $\alpha=2$ and $\beta=5$ beta distribution, it can be seen that as sample size increases, the summary statistics each convergs towards the true value for the population for that summary statistic.This demonstrates that variablilty decreases as sample size increases
 
-\section{Modeling Variation}
+\section{Modeling Variation with Sampling Distributions}
+For this section, in order to evaluate how statistics vary, each statistic was calculated 1000 times from a different sample of the population to create sampling distributions.  
+
+(Figure(s) in Appendix)
+
+These distributions show that for every statistic, the sampling distribution shows something that reflects a bell curve, meaning that with lots of repeated samples, the sample values will get closer to the true population statistic values.
+
+
+\section{2022 Death Rates Example}
+World-wide Death rates(which have been collected through he World Bank, 2022 ) can be modeled with a beta distribution. First, in order to determine the beta distribution parameters, it is vital to complete both a Method of Moments (M.O.M) and Maximum Likelihood Estimante (M.L.E) to calculate $\alpha$ and $\beta$. 
+
+Using the M.O.M procedure results in $\alpha = 8.426105$ and $\beta = 1003.461$.
+
+Using the M.L.E procedure results in $\alpha = 8.271409$ and $\beta = 985.0477$.
+
+While these results are slightly different, they do give insight into where the true parameter value lie. Both of the M.L.E. results are slightly less than the M.O.M. results.
+
+If $\alpha = 8$ and $\beta = 950$, and new data is used to generate new samples repeatedly, it creates a set of estimates for $\alpha$ and $\beta$ for both the M.O.M. and M.L.E , which can then be summarized to see each distribution.
+
+A graphical representation of this step can be found in the appendix. 
+
+In order to determine which kind of point estimation to use, it is best practice to look at the bias, precision, and mean squared error calculations. Bias should be as close to zero as possible, the precision should be as close to infinity as possible, and the mean squared error should be as small as it possibly can be. Below is a table demonstrating these statistics for each of the four distributions.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{rllrrr}
+  \hline
+ & Method & Parameter & Bias & Precision & MSE \\ 
+  \hline
+1 & MOM & Alpha & 0.08 & 1.83 & 83.54 \\ 
+  2 & MOM & Beta & 10.29 & 0.00 & 8265.64 \\ 
+  3 & MLE & Alpha & 0.07 & 2.13 & 83.46 \\ 
+  4 & MLE & Beta & 9.11 & 0.00 & 7132.70 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+For both kinds of point estimation, it is clear that the values are nearly identical, with few small changes. The best estimator for $\alpha$ is the M.L.E., and the best estimator for $\beta$ is also the M.L.E. It would make the most sense to use the M.L.E. method to estimate parameters for the Beta Distribution of world wide death rates.
 
 
 
-
-
-
-
-\section{Example- Death Rates Data}
-???
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \vspace{2em}
-
-\noindent\textbf{Bibliography:} Note that when you add citations to your bib.bib file \emph{and}
-you cite them in your document, the bibliography section will automatically populate here.
-
 \begin{tiny}
-\bibliography{bib}
+
+\section{References}
+
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., ... \& Yutani, H. (2019).  
+\textit{Welcome to the tidyverse.} Journal of Open Source Software, 4(43), 1686.  
+\url{https://doi.org/10.21105/joss.01686}  
+
+Dahl, D. B. (2023). \textit{xtable: Export Tables to LaTeX or HTML.} R package version 1.8-4.  
+\url{https://CRAN.R-project.org/package=xtable}  
+
+Becker, R. A., \& Wilks, A. R. (2023). \textit{cumstats: Cumulative Statistical Functions.}  
+R package version 1.0. \url{https://CRAN.R-project.org/package=cumstats}  
+
+Wickham, H. (2016). \textit{ggplot2: Elegant Graphics for Data Analysis.} Springer.  
+\url{https://ggplot2.tidyverse.org}  
+
+World Bank. (2022). \textit{Determinants of Mortality Rates from COVID-19: A Macro Level Analysis by Extended-Beta Regression Model.}  
+Policy Research Working Paper No. 10149. The World Bank.  
+\url{https://doi.org/10.1596/1813-9450-10149}  
+
+
 \end{tiny}
 \end{multicols}
 
@@ -333,7 +380,19 @@ you cite them in your document, the bibliography section will automatically popu
 \newpage
 \onecolumn
 \section{Appendix}
+Below are all of the graphs for the sections above, in the same order that they are mentioned
+\subsection{Density Function and parameters}
 
-If you have anything extra, you can add it here in the appendix. This can include images or tables that don't work well in the two-page setup, code snippets you might want to share, etc.
+\subsection{Population Distribution and Approximation}
+
+\subsection{Sample Size and the Beta Distribution}
+
+\subsection{Modeling Variance with a Sampling Distribution}
+
+\subsection{2022 Death Rates Example}
+
+
+
+
 
 \end{document}

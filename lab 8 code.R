@@ -37,8 +37,8 @@ MOM.beta <- function(data, par){
                 fn = MOM.beta,
                 data=dat.death.rates$DeathRates))
 
-(alpha.hat.mom <- moms$x[1])
-(beta.hat.mom <- moms$x[2])
+print(alpha.hat.mom <- moms$x[1])
+print(beta.hat.mom <- moms$x[2])
 
 
 ###################
@@ -58,8 +58,8 @@ llbeta <- function(data, par, neg=F){
                data=dat.death.rates$DeathRates,
                neg=T))
 
-(alpha.hat.mle <- mles$par[1])
-(beta.hat.mle <- mles$par[2])
+print(alpha.hat.mle <- mles$par[1])
+print(beta.hat.mle <- mles$par[2])
 
 
 ###################
@@ -174,42 +174,51 @@ mle.beta.plot <- ggplot(mle.estimates, aes(x=beta))+
 # Compute the bias, precision, and mean squared error for the estimates. Report them in a table.
   
 # MOM alpha
-theta.hats <- mom.estimates$alpha
-bias <- mean(theta.hats) - alpha
-precision <- 1/var(theta.hats)
-mse <- var(theta.hats) + bias^2
+mom.alpha.theta.hats <- mom.estimates$alpha
+mom.alpha.bias <- mean(mom.alpha.theta.hats) - alpha
+mom.alpha.precision <- 1/var(mom.alpha.theta.hats)
+mom.alpha.mse <- var(mom.alpha.theta.hats) + bias^2
 (bias)
 (precision)
 (mse)
 
 # MOM beta
-theta.hats <- mom.estimates$beta
-bias <- mean(theta.hats) - beta
-precision <- 1/var(theta.hats)
-mse <- var(theta.hats) + bias^2
+mom.beta.theta.hats <- mom.estimates$beta
+mom.beta.bias <- mean(mom.beta.theta.hats) - beta
+mom.beta.precision <- 1/var(mom.beta.theta.hats)
+mom.beta.mse <- var(mom.beta.theta.hats) + bias^2
 (bias)
 (precision)
 (mse)
 
 # MLE alpha
-theta.hats <- mle.estimates$alpha
-bias <- mean(theta.hats) - alpha
-precision <- 1/var(theta.hats)
-mse <- var(theta.hats) + bias^2
+mle.alpha.theta.hats <- mle.estimates$alpha
+mle.alpha.bias <- mean(mle.alpha.theta.hats) - alpha
+mle.alpha.precision <- 1/var(mle.alpha.theta.hats)
+mle.alpha.mse <- var(mle.alpha.theta.hats) + bias^2
 (bias)
 (precision)
 (mse)
 
 # MLE beta
-theta.hats <- mle.estimates$beta
-bias <- mean(theta.hats) - beta
-precision <- 1/var(theta.hats)
-mse <- var(theta.hats) + bias^2
+mle.beta.theta.hats <- mle.estimates$beta
+mle.beta.bias <- mean(mle.beta.theta.hats) - beta
+mle.beta.precision <- 1/var(mle.beta.theta.hats)
+mle.beta.mse <- var(mle.beta.theta.hats) + bias^2
 (bias)
 (precision)
 (mse)
 
 # ***put into a table in write up with xtable***
+summary.table <- tibble(
+  Method = c("MOM", "MOM", "MLE", "MLE"),
+  Parameter = c("Alpha", "Beta", "Alpha", "Beta"),
+  Bias = c(mom.alpha.bias, mom.beta.bias, mle.alpha.bias, mle.beta.bias),
+  Precision = c(mom.alpha.precision, mom.beta.precision, mle.alpha.precision, mle.beta.precision),
+  MSE = c(mom.alpha.mse, mom.beta.mse, mle.alpha.mse, mle.beta.mse)
+)
+
+print(xtable(summary.table))
 
 
 
