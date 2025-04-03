@@ -2,6 +2,7 @@
 #####################################################################################################################################################################
 
 library(tidyverse)
+library(xtable)
 
 #### Task 1 ####     **********export plots and data frame of values(xtable) to the write up************
 alpha <- 2
@@ -19,6 +20,8 @@ ggplot(data= two.and.five.dist) +
   xlab("x") +
   ylab("Density") +
   scale_color_manual("", values = c("black", "grey")) + theme(legend.position = "bottom")
+two.and.five.tab <-xtable(two.and.five.df)
+print(two.and.five.tab)
 
 alpha<-5 
 mean <- alpha / (alpha + beta)
@@ -29,11 +32,13 @@ five.and.five.df <- data.frame(Statistic = c("Mean", "Variance", "Skewness", "Ku
 five.and.five.dist <- tibble(x = seq(-0.25, 1.25, length.out=1000)) %>%
   mutate(beta.pdf = dbeta(x, alpha, beta), norm.pdf = dnorm(x, mean = alpha/(alpha+beta), sd = sqrt((alpha*beta)/((alpha+beta)^2*(alpha+beta+1))))) 
 ggplot(data= five.and.five.dist) +
-  geom_line(aes(x=x, y=beta.pdf, color="Beta(2,5)")) + geom_line(aes(x=x, y=norm.pdf, color="Gaussian(0.2857, 0.0255)")) + geom_hline(yintercept=0) +
+  geom_line(aes(x=x, y=beta.pdf, color="Beta(5,5)")) + geom_line(aes(x=x, y=norm.pdf, color="Gaussian(0.2857, 0.0255)")) + geom_hline(yintercept=0) +
   theme_bw() +
   xlab("x") +
   ylab("Density") +
   scale_color_manual("", values = c("black", "grey")) + theme(legend.position = "bottom")
+five.and.five.tab<- xtable(five.and.five.df)
+print(five.and.five.tab)
 
 beta<- 2
 mean <- alpha / (alpha + beta)
@@ -44,11 +49,13 @@ five.and.two.df <- data.frame(Statistic = c("Mean", "Variance", "Skewness", "Kur
 five.and.two.dist <- tibble(x = seq(-0.25, 1.25, length.out=1000)) %>%
   mutate(beta.pdf = dbeta(x, alpha, beta), norm.pdf = dnorm(x, mean = alpha/(alpha+beta), sd = sqrt((alpha*beta)/((alpha+beta)^2*(alpha+beta+1))))) 
 ggplot(data= five.and.two.dist) +
-  geom_line(aes(x=x, y=beta.pdf, color="Beta(2,5)")) + geom_line(aes(x=x, y=norm.pdf, color="Gaussian(0.2857, 0.0255)")) + geom_hline(yintercept=0) +
+  geom_line(aes(x=x, y=beta.pdf, color="Beta(5,2)")) + geom_line(aes(x=x, y=norm.pdf, color="Gaussian(0.2857, 0.0255)")) + geom_hline(yintercept=0) +
   theme_bw() +
   xlab("x") +
   ylab("Density") +
   scale_color_manual("", values = c("black", "grey")) + theme(legend.position = "bottom")
+five.and.two.tab <- xtable(five.and.two.df)
+print(five.and.two.tab)
 
 alpha <- 0.5
 beta <- 0.5
@@ -60,11 +67,13 @@ half.and.half.df <- data.frame(Statistic = c("Mean", "Variance", "Skewness", "Ku
 half.and.half.dist <- tibble(x = seq(-0.25, 1.25, length.out=1000)) %>%
   mutate(beta.pdf = dbeta(x, alpha, beta), norm.pdf = dnorm(x, mean = alpha/(alpha+beta), sd = sqrt((alpha*beta)/((alpha+beta)^2*(alpha+beta+1))))) 
 ggplot(data= half.and.half.dist) +
-  geom_line(aes(x=x, y=beta.pdf, color="Beta(2,5)")) + geom_line(aes(x=x, y=norm.pdf, color="Gaussian(0.2857, 0.0255)")) + geom_hline(yintercept=0) +
+  geom_line(aes(x=x, y=beta.pdf, color="Beta(.5,.5)")) + geom_line(aes(x=x, y=norm.pdf, color="Gaussian(0.2857, 0.0255)")) + geom_hline(yintercept=0) +
   theme_bw() +
   xlab("x") +
   ylab("Density") +
   scale_color_manual("", values = c("black", "grey")) + theme(legend.position = "bottom")
+half.and.half.tab <- xtable(half.and.half.df)
+print(half.and.half.tab)
 
 
 
@@ -81,14 +90,16 @@ beta.moment <- function(alpha,beta,k,centered){
   }
 }
 
-alpha <- 2
-beta <- 5
+alpha <- .5
+beta <- .5
 # uncentered
 MEAN = beta.moment(alpha,beta,1,FALSE)
 #centered
 VAR = beta.moment(alpha,beta,2,TRUE)
 SKEW = beta.moment(alpha,beta,3,TRUE)/ ((beta.moment(alpha,beta,2,TRUE)^(2/3)))
 E.KURT = (beta.moment(alpha,beta,4,TRUE) /((beta.moment(alpha,beta,2,TRUE)^2)))-3
+two.five.moment.frame <- data.frame(Statistic = c("Mean", "Variance", "Skewness", "Kurtosis"), Value = c(MEAN, VAR, SKEW, E.KURT))
+print(xtable(two.five.moment.frame))
 
 
 
@@ -109,8 +120,8 @@ df <- data.frame(x = sample_data)
 
 # Plot histogram with density estimates
 p <- ggplot(df, aes(x = x)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "green", color = "black", alpha = 0.7) +
-  geom_density(color = "red", size = 1) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", color = "black", alpha = 0.7) +
+  geom_density(color = "red", linewidth = 1) +
   stat_function(fun = dbeta, args = list(shape1 = alpha, shape2 = beta), color = "darkblue", size = 1) +
   ggtitle("Beta Distribution Sample, alpha=2, beta =5") +
   theme_minimal()
@@ -126,7 +137,7 @@ summary_stats <- df |>
     Excess_Kurtosis = (beta.moment(alpha,beta,4,TRUE) /((beta.moment(alpha,beta,2,TRUE)^2)))-3
   )
 
-print(summary_stats)
+print(xtable(summary_stats))
 
 ############################################### alpha is 5 and beta is 2 sample ###############################################
 alpha <- 5
@@ -140,7 +151,7 @@ df <- data.frame(x = sample_data)
 
 # Plot histogram with density estimates
 p <- ggplot(df, aes(x = x)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", color = "black", alpha = 0.7) +
   geom_density(color = "red", size = 1) +
   stat_function(fun = dbeta, args = list(shape1 = alpha, shape2 = beta), color = "darkblue", size = 1) +
   ggtitle("Beta Distribution Sample (alpha=5, beta=2") +
@@ -157,7 +168,7 @@ summary_stats <- df |>
     Excess_Kurtosis = (beta.moment(alpha,beta,4,TRUE) /((beta.moment(alpha,beta,2,TRUE)^2)))-3
   )
 
-print(summary_stats)
+print(xtable(summary_stats))
 
 ############################################### alpha is 5 and beta is 5 sample ###############################################
 alpha <- 5
@@ -171,7 +182,7 @@ df <- data.frame(x = sample_data)
 
 # Plot histogram with density estimates
 p <- ggplot(df, aes(x = x)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", color = "black", alpha = 0.7) +
   geom_density(color = "red", size = 1) +
   stat_function(fun = dbeta, args = list(shape1 = alpha, shape2 = beta), color = "darkblue", size = 1) +
   ggtitle("Beta Distribution Sample where alpha and beta are both 5") +
@@ -188,7 +199,7 @@ summary_stats <- df |>
     Excess_Kurtosis = (beta.moment(alpha,beta,4,TRUE) /((beta.moment(alpha,beta,2,TRUE)^2)))-3
   )
 
-print(summary_stats)
+print(xtable(summary_stats))
 
 ############################################### alpha is 1/2 and beta is 1/2 sample ###############################################
 alpha <- 0.5
@@ -202,7 +213,7 @@ df <- data.frame(x = sample_data)
 
 # Plot histogram with density estimates
 p <- ggplot(df, aes(x = x)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", color = "black", alpha = 0.7) +
   geom_density(color = "red", size = 1) +
   stat_function(fun = dbeta, args = list(shape1 = alpha, shape2 = beta), color = "darkblue", size = 1) +
   ggtitle("Beta Distribution Sample where alpha and beta are both 1/2") +
@@ -219,7 +230,7 @@ summary_stats <- df |>
     Excess_Kurtosis = (beta.moment(alpha,beta,4,TRUE) /((beta.moment(alpha,beta,2,TRUE)^2)))-3
   )
 
-print(summary_stats)
+print(xtable(summary_stats))
 
 
 ############################################################################################################################################################################################ 
@@ -327,28 +338,28 @@ print(summary_stats)
 
 # Mean Distribution
 p_mean <- ggplot(results_df, aes(x = Mean)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", color = "black", alpha = 0.7) +
   geom_density(color = "red", size = 1) +
   ggtitle("Sampling Distribution of the Mean") +
   theme_minimal()
 
 # Variance Distribution
 p_variance <- ggplot(results_df, aes(x = Variance)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "blue", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "darkblue", color = "black", alpha = 0.7) +
   geom_density(color = "red", size = 1) +
   ggtitle("Sampling Distribution of the Variance") +
   theme_minimal()
 
 # Skewness Distribution
 p_skewness <- ggplot(results_df, aes(x = Skewness)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "purple", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightgreen", color = "black", alpha = 0.7) +
   geom_density(color = "red", size = 1) +
   ggtitle("Sampling Distribution of the Skewness") +
   theme_minimal()
 
 # Excess Kurtosis Distribution
 p_kurtosis <- ggplot(results_df, aes(x = Excess_Kurtosis)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "orange", color = "black", alpha = 0.7) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "darkgreen", color = "black", alpha = 0.7) +
   geom_density(color = "red", size = 1) +
   ggtitle("Sampling Distribution of Excess Kurtosis") +
   theme_minimal()

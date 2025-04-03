@@ -24,63 +24,245 @@
 \begin{document}
 
 \vspace{-1in}
-\title{Lab XX -- MATH 240 -- Computational Statistics}
+\title{Lab 7 and 8 -- MATH 240 -- Computational Statistics}
 
 \author{
-  First Author \\
-  Affiliation  \\
-  Department  \\
-  {\tt email@domain}
+  Anya Suko\\
 }
 
-\date{}
+\date{27 March 2025}
 
 \maketitle
 
 \begin{multicols}{2}
-\begin{abstract}
-This document provides a basic template for the 2-page labs we will complete each week. Here, briefly summarize what you did and why it might be helpful. Provide all the top-line conclusions, but avoid providing \emph{all} the details. Results should be limited to ``we show X, Y, and Z."
-\end{abstract}
+\section{Introduction of the Beta Distribution}
+%.   what is beta dist?
+%.   what does it look like?
+%.   what is it used for?
+%.   what are its properties?
+%.   what additional info do you gain from the simulations and real data analysis?
 
-\noindent \textbf{Keywords:} What topics does the lab cover concerning class? List 3-4 key terms here, separated by semicolons.
+The Beta distribution is a continuous distribution, often used to model a random variable X that ranges from 0 to 1, making it useful for modeling proportions, probabilities, and rates. It is known for being remarkably flexible with regards to its shape- it can be symmetric or left/right skewed, depending on its parameters that define its shape: $\alpha > 0$, and $\beta > 0$.
+ 
 
-\section{Introduction}
-Provide an overarching summary of what you're talking about. In this section, you introduce the idea to the reader, and your goal is to pull them in. What's the mystery you aim to solve?
+\section{Density Function and Parameters}
+The beta distribution's probablilty density function, which gives the likeliness that a continuous random variable takes on a specific value, is given by
 
-You want to provide enough background to understand the context of the work. Specifically, what is the question you are addressing? If it applies, describe what information currently exists about this problem, including citations, and explain how the question you're answering complements this work.
+% put function here
+\[
+f_x(x | \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}
+x^{\alpha-1}(1-x)^{\beta -1} \mathbb{I}(x \in [0,1])
+\]
 
-Provide a roadmap of the structure of the paper. 
+where the density is zero anywhere outside of the range [0,1]. Since the distribution is directly impacted by its parameters ($\alpha$ and $\beta$), the population level characteristics are also described by those parameters. 
 
-\subsection{Intro Subsection}
-You might need/want to discuss the topics in subsections. Or, you may have multiple questions.
-
-\begin{Figure}
-\includegraphics{screenshot}
-\end{Figure}
-
-\section{Methods}
-Describe the data you are working with, if applicable. Describe the specific process you will follow to answer the question at hand. This does not mean you should write something like this.
-\begin{quote}
-\textit{I did this and then I did that and then I did this other thing and then..., and then..., and then...}
-\end{quote}
-Instead, it should provide a clear and concise narrative that flows from the problem specification in the Introduction to how you will approach answering it. This is where I would expect to see some citations for \texttt{R} packages you will use to conduct the statistical analysis reported in the Results section.
+A series of example distributions were created with different $\alpha$ and $\beta$ values in order to demonstrate the effect that both $\alpha$ and $\beta$ have on the distribution, and therefore the population level characteristics.
 
 
-\subsection{Methods Subsection}
-Much like the Introduction, subsections can be helpful for the Methods section. For example, you might describe data collection and the statistical analyses of the collected data in different subsections. Or, you may have different questions that require distinct methods. 
+When $\alpha$ and $\beta$ were set to 2 and 5, respectively,the population level statistics were the following:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.29 \\ 
+  2 & Variance & 0.03 \\ 
+  3 & Skewness & 0.60 \\ 
+  4 & Kurtosis & -0.12 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
-\section{Results}
-Tie together the Introduction -- where you introduce the problem at hand -- and the methods --  what you propose to do to answer the question. Present your data, the results of your analyses, and how each reported aspect contributes to answering the question. This section should include table(s), statistic(s), and graphical displays. Make sure to put the results in a sensible order and that each result contributes a logical and developed solution. It should not just be a list. Avoid being repetitive. 
+When $\alpha$ and $\beta$ were set to 5 and 5, respectively,the population level statistics were the following:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.50 \\ 
+  2 & Variance & 0.02 \\ 
+  3 & Skewness & 0.00 \\ 
+  4 & Kurtosis & -0.46 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
-\subsection{Results Subsection}
-Subsections can be helpful for the Results section, too. This can be particularly helpful if you have different questions to answer. 
+When $\alpha$ and $\beta$ were set to 5 and 2, respectively,the population level statistics were the following:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.71 \\ 
+  2 & Variance & 0.03 \\ 
+  3 & Skewness & -0.60 \\ 
+  4 & Kurtosis & -0.12 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+When $\alpha$ and $\beta$ were set to .5 and .5, respectively,the population level statistics were the following:
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.50 \\ 
+  2 & Variance & 0.12 \\ 
+  3 & Skewness & 0.00 \\ 
+  4 & Kurtosis & -1.50 \\ 
+   \hline
+\end{tabular}
+\end{table}
+Graphical representations of these distributions with $\alpha$ and $\beta$ values can be seen in the appendix.
+
+Upon comparing the results of the population level characteristics for the different parameter values, it can be noted that with equal $\alpha$ and $\beta$ values, the mean is exactly one half, and the skewness is zero. However, with increases to both $\alpha$ and $\beta$ value, the variance is smaller, and the kurtosis is also lower. When $\alpha$ is greater than $\beta$, when compared to equal parameters,the mean increases, and the skweness is negative (left skewed). When $\alpha$ is less than $\beta$, when compared to equal parameters, the mean is smaller, and the skewness is positive(right skewed). Here it is evident that the $\alpha$ and $\beta$ parameters significantly impact the population level characterics.
+
+\section{Moments}
+The mean, variance, skewness, and kurtosis are all calculated using a moment of the distribution. In order to demonstrate the effect that using moments has on these values, the characteristics from the previous example were re-calculated:
 
 
-\section{Discussion}
- You should objectively evaluate the evidence you found in the data. Do not embellish or wish-terpet (my made-up phase for making an interpretation you, or the researcher, wants to be true without the data \emph{actually} supporting it). Connect your findings to the existing information you provided in the Introduction.
+$\alpha = 2$ and $\beta = 5$
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.29 \\ 
+  2 & Variance & 0.03 \\ 
+  3 & Skewness & 0.03 \\ 
+  4 & Kurtosis & -0.12 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
-Finally, provide some concluding remarks that tie together the entire paper. Think of the last part of the results as abstract-like. Tell the reader what they just consumed -- what's the takeaway message?
+$\alpha = 5$ and $\beta = 5$
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.50 \\ 
+  2 & Variance & 0.02 \\ 
+  3 & Skewness & -0.00 \\ 
+  4 & Kurtosis & -0.46 \\ 
+   \hline
+\end{tabular}
+\end{table}
 
+$\alpha = 5$ and $\beta = 2$
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.71 \\ 
+  2 & Variance & 0.03 \\ 
+  3 & Skewness & -0.03 \\ 
+  4 & Kurtosis & -0.12 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+$\alpha = .5$ and $\beta = .5$
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|r|}
+  \hline
+ & Statistic & Value \\ 
+  \hline
+  1 & Mean & 0.50 \\ 
+  2 & Variance & 0.12 \\ 
+  3 & Skewness & -0.00 \\ 
+  4 & Kurtosis & -1.50 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+Here, it is evident that both avenues of calculating these statistics output nearly the same values. Since the formula for the moment is derived from the PDF funciton, it makes sense why these calculations would result in such similar values.
+
+
+\section{Population Distribution Approximation}
+The goal of summarizing data is to approximate the underlying population distribution. This section examines how graphical and numerical summaries reflect the actual population by generating random samples from known distributions and comparing sample-based estimates to theoretical values.
+
+$\alpha = 2$ and $\beta = 5$
+\begin{table}[H]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Mean & Variance & Skewness & Excess\_Kurtosis \\ 
+  \hline
+1 & 0.29 & 0.03 & 0.03 & -0.12 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+$\alpha = 5$ and $\beta = 5$
+\begin{table}[H]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Mean & Variance & Skewness & Excess\_Kurtosis \\ 
+  \hline
+1 & 0.72 & 0.02 & -0.03 & -0.12 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+$\alpha = 5$ and $\beta = 2$
+\begin{table}[H]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Mean & Variance & Skewness & Excess\_Kurtosis \\ 
+  \hline
+1 & 0.50 & 0.02 & -0.00 & -0.46 \\ 
+   \hline
+\end{tabular}
+\end{table}
+ 
+$\alpha = .5$ and $\beta = .5$
+\begin{table}[H]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Mean & Variance & Skewness & Excess\_Kurtosis \\ 
+  \hline
+1 & 0.52 & 0.12 & -0.00 & -1.50 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+Here, the difference in statistic calculations from the previous section examples comes from the fact that the data are samples, and therefore there is some variation. In the graphical representation of the repeated sampling, it can be seen that the outcome follows similar patterns to the actual population distribution, but that there are some places which are not exact, which is a result of the randomness of the sampling. While some variation occurs due to sampling, these summaries provide useful approximations for key distribution characteristics.
+
+\section{Sample Size and the Beta Distribution}
+This section demonstrates how cumulative numerical summaries—mean, variance, skewness, and excess kurtosis—change as more data points are added (sample size increases. The goal is to see how these statistics approach their true population values.
+
+ADD GRAPHS!!!
+
+After careful examination of all four summary statistic graphs for the $\alpha=2$ and $\beta=5$ beta distribution, it can be seen that as sample size increases, the summary statistics each convergs towards the true value for the population for that summary statistic.
+
+\section{Modeling Variation}
+
+
+
+
+
+
+
+\section{Example- Death Rates Data}
+???
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

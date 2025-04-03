@@ -88,3 +88,134 @@ ggplot()+
 
 
 ###################################################### Task 8 ##################################################################################################################
+
+alpha <- 8
+beta <- 950
+
+#make place to store data to
+mom.estimates <- tibble(alpha=numeric(1000), beta=numeric(1000))
+mle.estimates <- tibble(alpha=numeric(1000), beta=numeric(1000))
+
+#for loop to generate 1000 estimates
+for (i in 1:1000){
+  set.seed(7272+i)
+  
+  # make data set for a beta dist
+  data.loop <- rbeta(266, alpha, beta)
+  
+  # MOM estimation
+  MOM.beta <- function(data, par){
+    alpha <- par[1]
+    beta <- par[2]
+    
+    EX1 <- alpha/(alpha+beta)
+    EX2 <- alpha*(alpha+1)/((alpha+beta+1)*(alpha+beta))
+    
+    m1 <- mean(data, na.rm=TRUE)
+    m2 <- mean(data^2, na.rm=TRUE)
+    
+    return( c(EX1 - m1, EX2 - m2) )
+  }
+  
+  moms<- nleqslv(x = c(1, 1),
+                  fn = MOM.beta,
+                  data=data.loop)
+  
+  # MLE estimation
+  llbeta <- function(data, par, neg=F){
+    alpha <- par[1]
+    beta <- par[2]
+    
+    loglik <- sum(log(dbeta(x=data, shape1=alpha, shape2=beta)), na.rm= TRUE)
+    
+    return(ifelse(neg, -loglik, loglik))
+  }
+  
+  mles <- optim(par = c(1,1),
+                 fn = llbeta,
+                 data = data.loop,
+                 neg=T)
+ 
+  #add estimate values to tibble
+  mom.estimates$alpha[i] <- moms$x[1]
+  mom.estimates$beta[i] <- moms$x[2]
+  
+  mle.estimates$alpha[i] <-mles$par[1]
+  mle.estimates$beta[i] <- mles$par[2]
+}
+ 
+view(mom.estimates)
+view(mle.estimates)
+
+
+
+#plot the densities for both
+mom.alpha.plot <- ggplot(mom.estimates, aes(x = alpha)) +
+  geom_density(fill = "darkblue", alpha = 0.5) +
+  labs(title = "MOM Alpha Estimates", x = "Alpha", y = "Density")
+(mom.alpha.plot)
+
+mom.beta.plot <- ggplot(mom.estimates, aes(x = beta)) +
+  geom_density(fill = "lightblue", alpha = 0.5) +
+  labs(title = "MOM Beta Estimates", x = "Beta", y = "Density")
+(mom.beta.plot)
+
+mle.alpha.plot <- ggplot(mle.estimates, aes(x=alpha)) +
+  geom_density(fill= "lightgreen", alpha = 0.5)+
+  labs(title = "MLE Alpha Estimates", x= "Alpha", y = "Density")
+(mle.alpha.plot)
+
+mle.beta.plot <- ggplot(mle.estimates, aes(x=beta))+
+  geom_density(fill = "darkgreen", alpha = 0.5)+
+  labs(title = "MLE Beta Estimates", x = "Beta", y = "Density")
+(mle.beta.plot)
+
+
+# Compute the bias, precision, and mean squared error for the estimates. Report them in a table.
+  
+# MOM alpha
+theta.hats <- mom.estimates$alpha
+bias <- mean(theta.hats) - alpha
+precision <- 1/var(theta.hats)
+mse <- var(theta.hats) + bias^2
+(bias)
+(precision)
+(mse)
+
+# MOM beta
+theta.hats <- mom.estimates$beta
+bias <- mean(theta.hats) - beta
+precision <- 1/var(theta.hats)
+mse <- var(theta.hats) + bias^2
+(bias)
+(precision)
+(mse)
+
+# MLE alpha
+theta.hats <- mle.estimates$alpha
+bias <- mean(theta.hats) - alpha
+precision <- 1/var(theta.hats)
+mse <- var(theta.hats) + bias^2
+(bias)
+(precision)
+(mse)
+
+# MLE beta
+theta.hats <- mle.estimates$beta
+bias <- mean(theta.hats) - beta
+precision <- 1/var(theta.hats)
+mse <- var(theta.hats) + bias^2
+(bias)
+(precision)
+(mse)
+
+# ***put into a table in write up with xtable***
+
+
+
+
+
+
+
+
+
