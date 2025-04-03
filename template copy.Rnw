@@ -331,33 +331,24 @@ Policy Research Working Paper No. 10149. The World Bank.
 \section{Appendix}
 Below are all of the graphs for the sections above, in the same order that they are mentioned
 \subsection{Density Function and parameters}
-\includegraphics[scale=0.3]{beta distribution with alpha 2 beta 5.png}
-\includegraphics[scale=0.3]{beta distribution with alpha 5 beta 5.png}\\
-\includegraphics[scale=0.3]{beta distribution with alpha 5 beta 2.png}
-\includegraphics[scale=0.3]{beta distribution with alpha .5 beta .5.png}
+\includegraphics[width=0.8\linewidth]{beta distribution with alpha 2 beta 5.png}
+\includegraphics[width=0.8\linewidth]{beta distribution with alpha 5 beta 5.png}
+\includegraphics[width=0.8\linewidth]{beta distribution with alpha 5 beta 2.png}
+\includegraphics[width=0.8\linewidth]{beta distribution with alpha .5 beta .5.png}
 
 
 \subsection{Population Distribution and Approximation}
-\includegraphics[scale=0.3]{beta distribution alpha 2 beta 5 with sample data.png}
-\includegraphics[scale=0.3]{beta distribution with alpha 5 beta 5 with sample data.png}\\
-\includegraphics[scale=0.3]{beta distribution with alpha 5 beta 2 with sample data.png}
-\includegraphics[scale=0.3]{beta distribution with alpha .5 beta .5 with sample data.png}
+\includegraphics[width=0.8\linewidth]{beta distribution alpha 2 beta 5 with sample data.png}
+\includegraphics[width=0.8\linewidth]{beta distribution with alpha 5 beta 5 with sample data.png}
+\includegraphics[width=0.8\linewidth]{beta distribution with alpha 5 beta 2 with sample data.png}
+\includegraphics[width=0.8\linewidth]{beta distribution with alpha .5 beta .5 with sample data.png}
 
 
 \subsection{Sample Size and the Beta Distribution}
 
-\includegraphics[scale=0.8]{part 4.png}
-
 \subsection{Modeling Variance with a Sampling Distribution}
-\includegraphics[scale=0.8]{sampling distributions of summary stats (part 5).png}
-
 
 \subsection{2022 Death Rates Example}
-\includegraphics[scale=0.6]{Histogram of Data with distributions super imposed.png}\\
-\includegraphics[scale=0.25]{MOM ALPHA DENSITY.png}
-\includegraphics[scale=0.25]{MOM BETA DENSITY.png}\\
-\includegraphics[scale=0.25]{MLE ALPHA DENSITY.png}
-\includegraphics[scale=0.25]{MLE BETA DENSITY.png}
 
 
 
